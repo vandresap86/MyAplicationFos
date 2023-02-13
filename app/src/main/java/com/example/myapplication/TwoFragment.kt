@@ -1,20 +1,22 @@
 package com.example.myapplication
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.data.model.Projects
 import com.example.myapplication.ui.adapter.ProjectsAdapter
 
-class TwoFragment : Fragment(R.layout.fragment_two) {
+class TwoFragment : Fragment(R.layout.fragment_two), ProjectsAdapter.OnProjectClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val recycler = requireActivity().findViewById<RecyclerView>(R.id.rv_list_project)
 
         exampleListProject()
-        recycler.adapter = ProjectsAdapter(exampleListProject())
+        recycler.adapter = ProjectsAdapter(exampleListProject(), this@TwoFragment)
     }
 
     private fun exampleListProject(): List<Projects> {
@@ -65,6 +67,11 @@ class TwoFragment : Fragment(R.layout.fragment_two) {
             project6
         )
 
+    }
+
+    override fun onProjectClick(projects: Projects) {
+        Log.d("VAAP", "onProjectClick: $projects")
+        findNavController().navigate(R.id.detailProjectFragment)
     }
 
 }

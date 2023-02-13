@@ -14,10 +14,19 @@
         android:id="@+id/twoFragment"
         android:name="com.example.myapplication.TwoFragment"
         android:label="Projects"
-        tools:layout="@layout/fragment_two" />
+        tools:layout="@layout/fragment_two" >
+        <action
+            android:id="@+id/action_twoFragment_to_detailProjectFragment"
+            app:destination="@id/detailProjectFragment" />
+    </fragment>
     <fragment
         android:id="@+id/threeFragment"
         android:name="com.example.myapplication.ThreeFragment"
         android:label="Settings"
         tools:layout="@layout/fragment_three" />
+    <fragment
+        android:id="@+id/detailProjectFragment"
+        android:name="com.example.myapplication.ui.adapter.DetailProjectFragment"
+        android:label="fragment_detail_project"
+        tools:layout="@layout/fragment_detail_project" />
 </navigation>
