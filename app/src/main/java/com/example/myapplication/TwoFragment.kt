@@ -2,26 +2,45 @@ package com.example.myapplication
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.data.model.Projects
+import com.example.myapplication.presentation.ProjectViewModel
+import com.example.myapplication.presentation.ProjectViewModelFactory
+import com.example.myapplication.repository.ProjectRepositoryImpl
 import com.example.myapplication.ui.adapter.ProjectsAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.concurrent.thread
 
 class TwoFragment : Fragment(R.layout.fragment_two), ProjectsAdapter.OnProjectClickListener {
+    private val projectViewModel by viewModels<ProjectViewModel> {
+        ProjectViewModelFactory(ProjectRepositoryImpl())
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val recycler = requireActivity().findViewById<RecyclerView>(R.id.rv_list_project)
 
         //exampleListProject()
-        exampleListProject {
-            recycler.adapter = ProjectsAdapter(it, this@TwoFragment)
-        }
+/*        exampleListProject { resultListProject ->
+            recycler.adapter = ProjectsAdapter(resultListProject, this@TwoFragment)
+        }*/
+/*        val objProject = ProjectRepositoryImpl()
+        GlobalScope.launch {
+            recycler.adapter = ProjectsAdapter(objProject.getProject(), this@TwoFragment)
+        }*/
+
+        projectViewModel.project.observe(viewLifecycleOwner, Observer {
+            recycler.adapter = ProjectsAdapter(it.results, this@TwoFragment)
+        })
     }
 
     private fun exampleListProject(callback: (result: List<Projects>) -> Unit) {

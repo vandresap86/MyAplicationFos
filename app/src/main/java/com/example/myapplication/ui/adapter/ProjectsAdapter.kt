@@ -1,7 +1,6 @@
 package com.example.myapplication.ui.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -14,6 +13,7 @@ import com.example.myapplication.TwoFragment
 import com.example.myapplication.core.BaseViewHolder
 import com.example.myapplication.data.model.Projects
 import com.example.myapplication.databinding.ItemProjectBinding
+import com.example.myapplication.presentation.ProjectViewModel
 
 class ProjectsAdapter(
     private val projectsList: List<Projects>,
@@ -100,7 +100,6 @@ class ProjectsAdapter(
             Glide.with(context).load(item.imageProject).into(imageProject)
             descriptionProject.text = item.description
             directionProject.text = item.direction
-
         }
     }
 }
